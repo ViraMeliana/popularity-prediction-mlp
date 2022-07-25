@@ -1,0 +1,42 @@
+swagger: "2.0"
+info:
+  description: This is the swagger specs for this flask-api project
+  version: "1.0.0"
+  title: Flask Api
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /:
+    get:
+      operationId: controllers.text_mining.index
+      tags:
+        - home
+      summary: Retrieves welcome message
+      description: Displays welcome message
+      responses:
+        200:
+          description: See a welcome message
+    post:
+      operationId: controllers.text_mining.find
+      tags:
+        - views
+      summary: Get predicted view by title
+      description: Display predicted view by title
+      parameters:
+        - name: view
+          in: body
+          description: Predict title view
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+      responses:
+        200:
+          description: Sucessfully post title
+        400:
+          description: Invalid request

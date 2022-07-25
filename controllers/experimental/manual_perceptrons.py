@@ -7,7 +7,7 @@ from engine.utils.utilities import load_parsed_csv, basic_clean
 
 
 def main():
-    data = load_parsed_csv(datasets_path='datasets/all/records_4k.csv')
+    data = load_parsed_csv(datasets_path='../../resources/datasets/all/records_4k.csv')
     X = data.title
     y = data.is_popular
 
@@ -24,7 +24,7 @@ def main():
     for key in X_test:
         clean_test_news.append(basic_clean(key))
 
-    vector = pickle.load(open("datasets/models/vectorized.pickle", 'rb'))
+    vector = pickle.load(open("resources/datasets/models/vectorized.pickle", 'rb'))
     X_train = vector.transform(clean_train_news).toarray()
     X_test = vector.transform(clean_test_news).toarray()
 
@@ -34,7 +34,7 @@ def main():
                                learning_rate=0.001)
 
     mlp = clf.fit(X_train, y_train)
-    pickle.dump(mlp, open("datasets/models/model_mlp_manual.pickle", "wb"))
+    pickle.dump(mlp, open("resources/datasets/models/model_mlp_manual.pickle", "wb"))
 
     y_pred = np.argmax(clf.predict(X_test), axis=1)
     y_test = np.argmax(y_test, axis=1)

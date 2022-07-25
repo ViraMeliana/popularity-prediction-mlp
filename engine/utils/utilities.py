@@ -39,7 +39,7 @@ def basic_clean(title):
 
 
 def split_dataset():
-    data = load_parsed_csv('../../datasets/all/records_4k.csv')
+    data = load_parsed_csv('../../resources/datasets/all/records_4k.csv')
     train, test = train_test_split(data, test_size=0.2, random_state=0)
     val, test = train_test_split(test, test_size=0.5, random_state=1)
 

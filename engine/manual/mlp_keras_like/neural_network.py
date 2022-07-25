@@ -16,9 +16,9 @@ class NeuralNetwork:
     def __init__(self, optimizer, loss, validation_data=None):
         self.optimizer = optimizer
         self.progressbar = progressbar.ProgressBar(widgets=bar_widgets)
-        if os.path.exists("datasets/models/model_neural_net.pickle"):
+        if os.path.exists("resources/models/model_neural_net.pickle"):
             self.layers, self.errors, self.loss_function, self.val_set = pickle.load(
-                open("datasets/models/model_neural_net.pickle", 'rb'))
+                open("resources/models/model_neural_net.pickle", 'rb'))
         else:
             self.layers = []
             self.errors = {"training": [], "validation": []}
@@ -28,7 +28,6 @@ class NeuralNetwork:
             if validation_data:
                 X, y = validation_data
                 self.val_set = {"X": X, "y": y}
-
 
     def set_trainable(self, trainable):
         """ Method which enables freezing of the weights of the network's layers. """
@@ -121,5 +120,6 @@ class NeuralNetwork:
         """ Use the trained model to predict labels of X """
         return self._forward_pass(X, training=False)
 
-    def saveModel(self):
-        pickle.dump([self.layers,self.errors,self.loss_function,self.val_set], open("datasets/models/model_neural_net.pickle", "wb"))
+    # def saveModel(self):
+    #     pickle.dump([self.layers, self.errors, self.loss_function, self.val_set],
+    #                 open("datasets/models/model_neural_net.pickle", "wb"))

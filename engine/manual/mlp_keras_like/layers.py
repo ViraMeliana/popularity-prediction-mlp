@@ -52,8 +52,9 @@ class Hidden(Layer):
     """
 
     def __init__(self, n_units, input_shape=None):
-        if os.path.exists("datasets/models/model_layer.pickle"):
-            self.layer_input,self.input_shape,self.n_units,self.trainable,self.W,self.w0 = pickle.load(open("datasets/models/model_layer.pickle", 'rb'))
+        if os.path.exists("resources/models/model_layer.pickle"):
+            self.layer_input, self.input_shape, self.n_units, self.trainable, self.W, self.w0 = pickle.load(
+                open("resources/models/model_layer.pickle", 'rb'))
         else:
             self.layer_input = None
             self.input_shape = input_shape
@@ -62,8 +63,6 @@ class Hidden(Layer):
 
             self.W = None
             self.w0 = None
-
-
 
     def initialize(self, optimizer):
         # Initialize the weights
@@ -83,10 +82,10 @@ class Hidden(Layer):
 
     def forward_pass(self, X, training=True):
         self.layer_input = X
-        pickle.dump([self.layer_input,self.input_shape,self.n_units,self.trainable,self.W,self.w0], open("datasets/models/model_layer.pickle", "wb"))
+        # pickle.dump([self.layer_input, self.input_shape, self.n_units, self.trainable, self.W, self.w0],
+        #             open("datasets/models/model_layer.pickle", "wb"))
 
         return X.dot(self.W) + self.w0
-
 
     def backward_pass(self, accum_grad):
         # Save weights used during forwards pass

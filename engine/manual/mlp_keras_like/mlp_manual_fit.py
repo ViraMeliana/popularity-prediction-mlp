@@ -57,7 +57,7 @@ class ManualMultiPerceptron:
         print()
         self.clf.summary(name="MLP")
         train_err, val_err = self.clf.fit(X_train, y_train, n_epochs=self.n_iterations, batch_size=256)
-        savemodel = self.clf.saveModel()
+        # savemodel = self.clf.saveModel()
 
         _, accuracy = self.clf.test_on_batch(X_test, y_test)
         print("Accuracy:", accuracy)
@@ -69,24 +69,22 @@ class ManualMultiPerceptron:
         print("title cleaner")
         title_clean = title
         title_clean = np.append(title_clean, util.basic_clean(title_clean))
-        vectorized = pickle.load(open("datasets/models/vectorized.pickle", 'rb'))
+        vectorized = pickle.load(open("resources/models/vectorized.pickle", 'rb'))
         val_data_features = vectorized.transform(title_clean)
         np.asarray(val_data_features)
 
         return val_data_features
 
-    def predict(self):
+    def predict(self, title):
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
-        y_pred = np.argmax(self.clf.predict(self.title_cleaner(
-            "With focus on Olympics, Rijiju says national sports camps to be held at GulmargThe Minister said water sports were coming up in a big way across Jammu and Kashmir")[
-                                            :-1]), axis=1)
-        print(y_pred)
+        y_pred = np.argmax(self.clf.predict(self.title_cleaner(title)[:-1]), axis=1)
+        return y_pred
 
     def confusion_matrix(self):
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
-        test = util.load_parsed_csv(datasets_path='datasets/all/testing.csv')
+        test = util.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
         y_pred = np.argmax(self.clf.predict(self.title_cleaner(test['title'])[
                                             :-1]), axis=1)
         cm = confusion_matrix(test['is_popular'], y_pred)
@@ -100,10 +98,9 @@ class ManualMultiPerceptron:
     def classification_report(self):
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
-        test = util.load_parsed_csv(datasets_path='datasets/all/testing.csv')
+        test = util.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
         y_pred = np.argmax(self.clf.predict(self.title_cleaner(test['title'])[
                                             :-1]), axis=1)
         report = classification_report(test['is_popular'], y_pred, labels=[0, 1])
         print(report)
         return report
-
