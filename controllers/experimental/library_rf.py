@@ -18,14 +18,14 @@ def test_rf(title):
     tester = lib_rf_test.Testing()
     y_pred, title_cleaned = tester.predict(title)
 
-    return {
+    return json.dumps({
         'result': y_pred,
         'description': json.dumps(
             {
                 'title_clean': title_cleaned
             }
         )
-    }
+    })
 
 
 def confusion_matrix_rf():
