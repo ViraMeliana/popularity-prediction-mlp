@@ -31,13 +31,13 @@ class ManualTrainTest:
         y_pred, title_cleaned = ManualMultiPerceptron(n_iterations=200,
                                                       n_hidden=256, n_classes=2, vectorized=self.vectorized).predict(
             title)
+
         return json.dumps({
-            'result': y_pred,
-            'description': json.dumps(
+            'result': str(y_pred),
+            'description':
                 {
                     'title_clean': title_cleaned
                 }
-            )
         })
 
     def confusion_matrix(self):

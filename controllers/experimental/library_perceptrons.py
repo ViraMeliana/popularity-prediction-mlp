@@ -14,12 +14,11 @@ def test_mlp(title):
     y_pred, title_cleaned = tester.predict(title)
 
     return json.dumps({
-        'result': y_pred,
-        'description': json.dumps(
+        'result': str(y_pred),
+        'description':
             {
                 'title_clean': title_cleaned
             }
-        )
     })
 
 
