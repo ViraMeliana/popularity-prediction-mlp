@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 from urllib.request import urlopen
@@ -27,26 +28,17 @@ class ManualTrainTest:
         clf.fit(X_train, y_train, X_test, y_test)
 
     def predict(self, title):
-        if not os.path.exists(self.vectorized):
-            print("Downloading pretrained model to " + self.vectorized + " ...")
-            with urlopen('https://datasets.open-projects.org/vectorized.pickle') as resp, \
-                    open(self.vectorized, 'wb') as out:
-                shutil.copyfileobj(resp, out)
-
-        if not os.path.exists(self.neural_net):
-            print("Downloading pretrained model to " + self.neural_net + " ...")
-            with urlopen('https://datasets.open-projects.org/model_neural_net.pickle') as resp, \
-                    open(self.neural_net, 'wb') as out:
-                shutil.copyfileobj(resp, out)
-
-        if not os.path.exists(self.layers):
-            print("Downloading pretrained model to " + self.layers + " ...")
-            with urlopen('https://datasets.open-projects.org/model_layer.pickle') as resp, \
-                    open(self.layers, 'wb') as out:
-                shutil.copyfileobj(resp, out)
-
-        return ManualMultiPerceptron(n_iterations=200,
-                                     n_hidden=256, n_classes=2, vectorized=self.vectorized).predict(title)
+        y_pred, title_cleaned = ManualMultiPerceptron(n_iterations=200,
+                                                      n_hidden=256, n_classes=2, vectorized=self.vectorized).predict(
+            title)
+        return {
+            'result': y_pred,
+            'description': json.dumps(
+                {
+                    'title_clean': title_cleaned
+                }
+            )
+        }
 
     def confusion_matrix(self):
         return ManualMultiPerceptron(n_iterations=200,

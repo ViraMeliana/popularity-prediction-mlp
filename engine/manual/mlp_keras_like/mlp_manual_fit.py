@@ -73,13 +73,15 @@ class ManualMultiPerceptron:
         val_data_features = vectorized.transform(title_clean)
         np.asarray(val_data_features)
 
-        return val_data_features
+        return val_data_features, title_clean
 
     def predict(self, title):
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
-        y_pred = np.argmax(self.clf.predict(self.title_cleaner(title)[:-1]), axis=1)
-        return y_pred
+        val_data_features, title_cleaner = self.title_cleaner(title)
+
+        y_pred = np.argmax(self.clf.predict(val_data_features[:-1]), axis=1)
+        return y_pred[0], title_cleaner[1]
 
     def confusion_matrix(self):
         self.clf = NeuralNetwork(optimizer=self.optimizer,

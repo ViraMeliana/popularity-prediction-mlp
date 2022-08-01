@@ -40,3 +40,47 @@ paths:
           description: Sucessfully post title
         400:
           description: Invalid request
+  /mlp-lib:
+    post:
+      operationId: controllers.text_mining.find_lib
+      tags:
+        - views
+      summary: Get predicted view by title
+      description: Display predicted view by title
+      parameters:
+        - name: view
+          in: body
+          description: Predict title view
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+      responses:
+        200:
+          description: Sucessfully post title
+        400:
+          description: Invalid request
+  /rf-lib:
+    post:
+      operationId: controllers.text_mining.find_rf
+      tags:
+        - views
+      summary: Get predicted view by title
+      description: Display predicted view by title
+      parameters:
+        - name: view
+          in: body
+          description: Predict title view
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+      responses:
+        200:
+          description: Sucessfully post title
+        400:
+          description: Invalid request

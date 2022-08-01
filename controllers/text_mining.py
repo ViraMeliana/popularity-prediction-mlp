@@ -1,6 +1,8 @@
 import jsonschema
 
 from controllers.experimental.manual_perceptrons_v2 import ManualTrainTest
+from controllers.experimental import library_perceptrons
+from controllers.experimental import library_rf
 
 from rules.prediction_rule import *
 from flask import Response, request, json
@@ -26,3 +28,28 @@ def find():
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
+
+def find_lib():
+    request_data = request.get_json()
+    try:
+        jsonschema.validate(request_data, prediction_rules_schema)
+        predict_result = library_perceptrons.test_mlp([request_data['title']])
+
+        response = Response(json.dumps(str(predict_result)), 201, mimetype="application/json")
+    except jsonschema.exceptions.ValidationError as exc:
+        response = Response(error_message_helper(exc.message), 400, mimetype="application/json")
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
+
+def find_rf():
+    request_data = request.get_json()
+    try:
+        jsonschema.validate(request_data, prediction_rules_schema)
+        predict_result = library_rf.test_rf([request_data['title']])
+
+        response = Response(json.dumps(str(predict_result)), 201, mimetype="application/json")
+    except jsonschema.exceptions.ValidationError as exc:
+        response = Response(error_message_helper(exc.message), 400, mimetype="application/json")
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response

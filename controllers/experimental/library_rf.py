@@ -1,29 +1,40 @@
+import json
+
 from engine.lib.rf import lib_rf
 from engine.lib.rf import lib_rf_test
 
 
-def main():
+def main_rf():
     train = lib_rf.Training().random_forest()
     return train
 
-def validation():
+
+def validation_rf():
     val = lib_rf.Training().validation()
     return val
 
 
-def confusion_matrix():
+def test_rf(title):
+    tester = lib_rf_test.Testing()
+    y_pred, title_cleaned = tester.predict(title)
+
+    return {
+        'result': y_pred,
+        'description': json.dumps(
+            {
+                'title_clean': title_cleaned
+            }
+        )
+    }
+
+
+def confusion_matrix_rf():
     test = lib_rf_test.Testing()
     cm = test.confusion_matrix()
     return cm
 
 
-def classification_report():
+def classification_report_rf():
     test = lib_rf_test.Testing()
     cr = test.classification_report()
     return cr
-
-if __name__ == "__main__":
-    # main()
-    validation()
-    confusion_matrix()
-    classification_report()

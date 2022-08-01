@@ -10,16 +10,16 @@ class Testing:
         self.vectorized = None
         self.model = None
 
-        self.test = util.load_parsed_csv(datasets_path='datasets/all/testing.csv')
+        self.test = util.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
 
         self.pickle_parser()
 
     def pickle_parser(self):
-        if os.path.exists("datasets/models/vectorized.pickle") & os.path.exists(
-                "datasets/models/model_rf.pickle"):
+        if os.path.exists("resources/models/vectorized.pickle") & os.path.exists(
+                "resources/models/model_rf.pickle"):
             print("model is exist")
-            self.vectorized = pickle.load(open("datasets/models/vectorized.pickle", 'rb'))
-            self.model = pickle.load(open("datasets/models/model_rf.pickle", 'rb'))
+            self.vectorized = pickle.load(open("resources/models/vectorized.pickle", 'rb'))
+            self.model = pickle.load(open("resources/models/model_rf.pickle", 'rb'))
         else:
             print("model doesn't exist")
 
@@ -32,15 +32,16 @@ class Testing:
             test_data_features = self.vectorized.transform(title_clean)
             np.asarray(test_data_features)
 
-            return test_data_features
+            return test_data_features, title_clean
         else:
             return None
 
     def predict(self, title):
         if self.model is not None:
-            predict = self.model.predict(self.title_cleaner(title))
-            print(predict[0])
-            return predict[0]
+            test_data_features, title_cleaned = self.title_cleaner(title)
+            predict = self.model.predict(test_data_features)
+
+            return predict[0], title_cleaned[1]
         else:
             return None
 
