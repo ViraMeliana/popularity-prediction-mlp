@@ -4,15 +4,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas
 import engine.utils.utilities as utils
 
+
 class Vectorizer:
     def __init__(self):
         self.vectorized = None
         self.train_data_features = None
         self.val_data_features = None
 
-        self.train = utils.load_parsed_csv(datasets_path='datasets/all/training.csv')
-        self.test = utils.load_parsed_csv(datasets_path='datasets/all/testing.csv')
-        self.val =utils.load_parsed_csv(datasets_path='datasets/all/validation.csv')
+        self.train = utils.load_parsed_csv(datasets_path='resources/datasets/all/training.csv')
+        self.test = utils.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
+        self.val = utils.load_parsed_csv(datasets_path='resources/datasets/all/validation.csv')
 
         self.clean_train_news = []
         self.clean_val_news = []
@@ -37,4 +38,3 @@ class Vectorizer:
         self.vectorized = TfidfVectorizer()
         val_data_features = self.vectorized.fit_transform(self.clean_val_news)
         return val_data_features
-

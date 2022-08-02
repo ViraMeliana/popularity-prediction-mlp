@@ -87,22 +87,26 @@ class ManualMultiPerceptron:
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
         test = util.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
-        y_pred = np.argmax(self.clf.predict(self.title_cleaner(test['title'])[
-                                            :-1]), axis=1)
+        val_data_features, _ = self.title_cleaner(test['title'])
+
+        y_pred = np.argmax(self.clf.predict(val_data_features[:-1]), axis=1)
         cm = confusion_matrix(test['is_popular'], y_pred)
         y1 = to_categorical(test['is_popular'].astype("int"))
         ac = accuracy_score(test['is_popular'], y_pred)
-        print(y_pred)
+
         print(cm)
         print(ac)
+
         return ac
 
     def classification_report(self):
         self.clf = NeuralNetwork(optimizer=self.optimizer,
                                  loss=CrossEntropy)
         test = util.load_parsed_csv(datasets_path='resources/datasets/all/testing.csv')
-        y_pred = np.argmax(self.clf.predict(self.title_cleaner(test['title'])[
-                                            :-1]), axis=1)
+        val_data_features, _ = self.title_cleaner(test['title'])
+
+        y_pred = np.argmax(self.clf.predict(val_data_features[:-1]), axis=1)
         report = classification_report(test['is_popular'], y_pred, labels=[0, 1])
+
         print(report)
         return report

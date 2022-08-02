@@ -15,7 +15,7 @@ nltk.download('omw-1.4')
 lemmatizer = WordNetLemmatizer()
 
 
-def load_parsed_csv(datasets_path='datasets/records_4k.csv', encoding='ISO-8859-1'):
+def load_parsed_csv(datasets_path='resources/datasets/all/training.csv', encoding='ISO-8859-1'):
     data = pd.read_csv(datasets_path, encoding=encoding)
     data = data[data.title != '[none]']
 

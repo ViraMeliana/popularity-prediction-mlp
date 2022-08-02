@@ -47,18 +47,21 @@ class Testing:
 
     def classification_report(self):
         desc = np.asarray(self.test['title'].values.astype('U'))
-        predict = self.model.predict(self.title_cleaner(desc))
+        test_data_features, _ = self.title_cleaner(desc)
+
+        predict = self.model.predict(test_data_features)
         report = classification_report(np.nan_to_num(self.test['is_popular']), predict[:-1], labels=[1, 0])
         print(report)
         return report
 
     def confusion_matrix(self):
         desc = np.asarray(self.test['title'].values.astype('U'))
-        predict = self.model.predict(self.title_cleaner(desc))
+        test_data_features, _ = self.title_cleaner(desc)
+
+        predict = self.model.predict(test_data_features)
         cm = confusion_matrix(self.test['is_popular'], predict[:-1])
         ac = accuracy_score(self.test['is_popular'], predict[:-1])
 
-        print(self.title_cleaner(desc))
         print(cm)
         print(ac)
         return ac
